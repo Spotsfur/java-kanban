@@ -31,11 +31,10 @@ public class TaskManager {
         tasks.put(taskId, task);
     }
 
-    public void updateTask(Task task, int id, Status status) {
+    public void updateTask(Task task, int id) {
         if (tasks.containsKey(id)) {
             tasks.get(id).setName(task.getName());
             tasks.get(id).setDescription(task.getDescription());
-            tasks.get(id).setStatus(status);
         }
     }
 
@@ -161,11 +160,10 @@ public class TaskManager {
         }
     }
 
-    public void updateSubTask(SubTask subTask, int id, Status status) {
+    public void updateSubTask(SubTask subTask, int id) {
         if (subTasks.containsKey(id)) {
             subTasks.get(id).setName(subTask.getName());
             subTasks.get(id).setDescription(subTask.getDescription());
-            subTasks.get(id).setStatus(status);
             //Обновляем статус эпика
             updateEpicStatus(subTasks.get(id).getParentId());
         }

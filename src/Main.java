@@ -30,8 +30,8 @@ public class Main {
         //System.out.println(manager.getEpics());
         //System.out.println(manager.getSubTasks());
 
-        manager.updateSubTask(subTask1, 5, Status.DONE);
-        manager.updateSubTask(subTask2, 6, Status.IN_PROGRESS);
+        manager.updateSubTask(subTask1, 5);
+        manager.updateSubTask(subTask2, 6);
         System.out.println(manager.getSubTasks());
         System.out.println(manager.getEpics());
 
