@@ -1,3 +1,10 @@
+package Manager;
+
+import Tasks.Epic;
+import Tasks.SubTask;
+import Tasks.Task;
+import Tasks.Status;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -7,7 +14,7 @@ public class TaskManager {
     private static HashMap<Integer, SubTask> subTasks = new HashMap<>();
     private static HashMap<Integer, Epic> epics = new HashMap<>();
 
-    TaskManager() {
+    public TaskManager() {
         taskId = 0;
     }
 

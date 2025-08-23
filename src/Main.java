@@ -1,4 +1,7 @@
-import java.util.ArrayList;
+import Manager.TaskManager;
+import Tasks.Epic;
+import Tasks.SubTask;
+import Tasks.Task;
 
 public class Main {
 
@@ -14,7 +17,7 @@ public class Main {
         SubTask subTask2 = new SubTask("Название другой подзадачи","Какое-то описание", 4);
         SubTask subTask3 = new SubTask("Название очередной подзадачи","Какое-то описание", 4);
 
-        //Передаём в Task Задачи, Эпики, Подзадачи
+        //Передаём в Tasks.Task Задачи, Эпики, Подзадачи
         manager.putTask(task1);
         manager.putTask(task2);
 
@@ -36,8 +39,8 @@ public class Main {
         System.out.println(manager.getEpics());
 
         //Создаём ещё один объект для обновления задачи
-        //Task task3 = new Task("Обновлённая задача","Новое описание");
-        //System.out.println(manager.updateTask(task3, 2, Status.IN_PROGRESS));
+        //Tasks.Task task3 = new Tasks.Task("Обновлённая задача","Новое описание");
+        //System.out.println(manager.updateTask(task3, 2, Tasks.Status.IN_PROGRESS));
         //System.out.println(manager.getTasks());
 
         //Удаляем задачу
