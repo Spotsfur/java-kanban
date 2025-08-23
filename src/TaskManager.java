@@ -72,10 +72,13 @@ public class TaskManager {
         }
     }
 
-    public void removeEpic(int id) {
-        if (epics.containsKey(id)) {
-            //ЗДЕСЬ ДОЛЖЕН БЫТЬ ЦИКЛ ПЕРЕБОРА ПО САБТАСКАМ
-            epics.remove(id);
+    public void removeEpic(int epicId) {
+        if (epics.containsKey(epicId)) {
+            ArrayList<Integer> subTasksIds = epics.get(epicId).getSubTasksIds();
+            for (int subTaskId : subTasksIds) {
+                subTasks.remove(subTaskId);
+            }
+            epics.remove(epicId);
         }
     }
 
@@ -86,20 +89,20 @@ public class TaskManager {
             int firstSubTaskId = subTasksIds.getFirst();
             result = subTasks.get(firstSubTaskId).getStatus();
             epics.get(epicId).setStatus(result);
-            Status childStatus;
+            Status subTaskStatus;
             if (result == Status.NEW) {
-                for (int childId : subTasksIds) {
-                    childStatus = subTasks.get(childId).getStatus();
-                    if (result != childStatus) {
+                for (int subTaskId : subTasksIds) {
+                    subTaskStatus = subTasks.get(subTaskId).getStatus();
+                    if (result != subTaskStatus) {
                         result = Status.IN_PROGRESS;
                         epics.get(epicId).setStatus(result);
                         return result;
                     }
                 }
             } else if (result == Status.DONE) {
-                for (int childId : subTasksIds) {
-                    childStatus = subTasks.get(childId).getStatus();
-                    if (result != childStatus) {
+                for (int subTaskId : subTasksIds) {
+                    subTaskStatus = subTasks.get(subTaskId).getStatus();
+                    if (result != subTaskStatus) {
                         result = Status.IN_PROGRESS;
                         epics.get(epicId).setStatus(result);
                         return result;
