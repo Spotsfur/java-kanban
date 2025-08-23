@@ -22,10 +22,7 @@ public class TaskManager {
     }
 
     public Task getTask(int id) {
-        if (tasks.containsKey(id)) {
-            return tasks.get(id);
-        }
-        return null;
+        return tasks.get(id);
     }
 
     public void putTask(Task object) {
@@ -60,10 +57,7 @@ public class TaskManager {
     }
 
     public Epic getEpic(int id) {
-        if (epics.containsKey(id)) {
-            return epics.get(id);
-        }
-        return null;
+        return epics.get(id);
     }
 
     public void putEpic(Epic object) {
@@ -146,10 +140,7 @@ public class TaskManager {
     }
 
     public SubTask getSubTask(int id) {
-        if (subTasks.containsKey(id)) {
-            return subTasks.get(id);
-        }
-        return null;
+        return subTasks.get(id);
     }
 
     public void putSubTask(SubTask object) {
