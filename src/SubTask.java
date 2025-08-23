@@ -1,9 +1,9 @@
 public class SubTask extends Task {
-    private int parentId;
+    private int epicId;
 
     SubTask(String name, String description, int parentId) {
         super(name, description);
-        this.parentId = parentId;
+        this.epicId = parentId;
     }
 
     @Override
@@ -13,11 +13,11 @@ public class SubTask extends Task {
                 ", name='" + super.getName() + "'" +
                 ", description='" + super.getDescription() + "'" +
                 ", status='" + super.getStatus() + "'" +
-                ", parentId='" + parentId + "'}";
+                ", parentId='" + epicId + "'}";
     }
 
     public int getParentId() {
-        return parentId;
+        return epicId;
     }
 
     public Status getStatus() {

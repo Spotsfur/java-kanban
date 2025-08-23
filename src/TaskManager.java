@@ -12,12 +12,8 @@ public class TaskManager {
     }
 
     //Методы для типа Задача
-    public ArrayList<Task> printTasks() {
-        ArrayList<Task> result = new ArrayList<>();
-        for (int id : tasks.keySet()) {
-            result.add(tasks.get(id));
-        }
-        return result;
+    public ArrayList<Task> getTasks() {
+        return new ArrayList<>(tasks.values());
     }
 
     public boolean clearTasks() {
@@ -56,12 +52,8 @@ public class TaskManager {
     }
 
     //Методы для типа Эпик
-    public ArrayList<Epic> printEpics() {
-        ArrayList<Epic> result = new ArrayList<>();
-        for (int id : epics.keySet()) {
-            result.add(epics.get(id));
-        }
-        return result;
+    public ArrayList<Epic> getEpics() {
+        return new ArrayList<>(epics.values());
     }
 
     public boolean clearEpic() {
@@ -102,14 +94,14 @@ public class TaskManager {
 
     private Status updateEpicStatus(int epicId) {
         Status result = epics.get(epicId).getStatus();
-        ArrayList<Integer> childrenIds = epics.get(epicId).getChildrenIds();
-        if (!childrenIds.isEmpty()) {
-            int firstSubTaskId = childrenIds.getFirst();
+        ArrayList<Integer> subTasksIds = epics.get(epicId).getSubTasksIds();
+        if (!subTasksIds.isEmpty()) {
+            int firstSubTaskId = subTasksIds.getFirst();
             result = subTasks.get(firstSubTaskId).getStatus();
             epics.get(epicId).setStatus(result);
             Status childStatus;
             if (result == Status.NEW) {
-                for (int childId : childrenIds) {
+                for (int childId : subTasksIds) {
                     childStatus = subTasks.get(childId).getStatus();
                     if (result != childStatus) {
                         result = Status.IN_PROGRESS;
@@ -118,7 +110,7 @@ public class TaskManager {
                     }
                 }
             } else if (result == Status.DONE) {
-                for (int childId : childrenIds) {
+                for (int childId : subTasksIds) {
                     childStatus = subTasks.get(childId).getStatus();
                     if (result != childStatus) {
                         result = Status.IN_PROGRESS;
@@ -134,7 +126,7 @@ public class TaskManager {
 
     public ArrayList<SubTask> getEpicSubTasks(int id) {
         if (epics.containsKey(id)) {
-            ArrayList<Integer> childrenIds = epics.get(id).getChildrenIds();
+            ArrayList<Integer> childrenIds = epics.get(id).getSubTasksIds();
             ArrayList<SubTask> epicSubTasks = new ArrayList<>();
             for (int childrenId : childrenIds) {
                 epicSubTasks.add(subTasks.get(childrenId));
@@ -145,17 +137,13 @@ public class TaskManager {
     }
 
     //Методы для типа Подзадача
-    public ArrayList<SubTask> printSubTasks() {
-        ArrayList<SubTask> result = new ArrayList<>();
-        for (int id : subTasks.keySet()) {
-            result.add(subTasks.get(id));
-        }
-        return result;
+    public ArrayList<SubTask> getSubTasks() {
+        return new ArrayList<>(subTasks.values());
     }
 
     public boolean clearSubTasks() {
         for (Integer id : epics.keySet()) {
-            ArrayList<Integer> childrenIds = epics.get(id).getChildrenIds();
+            ArrayList<Integer> childrenIds = epics.get(id).getSubTasksIds();
             childrenIds.clear();
             epics.get(id).setChildrenIds(childrenIds);
         }
@@ -178,7 +166,7 @@ public class TaskManager {
         object.setId(taskId);
 
         //В список children передаём список нужного epic, добавляем в него taskId и возвращаем список обратно
-        ArrayList<Integer> children = epics.get(parentId).getChildrenIds();
+        ArrayList<Integer> children = epics.get(parentId).getSubTasksIds();
         children.add(taskId);
         epics.get(parentId).setChildrenIds(children);
 
@@ -202,7 +190,7 @@ public class TaskManager {
         if (subTasks.containsKey(id)) {
             int parentId = subTasks.get(id).getParentId();
             //Получаем список детей, стираем нужного, возвращаем список
-            ArrayList<Integer> childrenIds = epics.get(parentId).getChildrenIds();
+            ArrayList<Integer> childrenIds = epics.get(parentId).getSubTasksIds();
             childrenIds.remove(id);
             epics.get(parentId).setChildrenIds(childrenIds);
             //Обновляем статус эпика

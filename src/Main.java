@@ -26,23 +26,23 @@ public class Main {
         manager.putSubTask(subTask3);
 
         //Печатаем всё
-        //System.out.println(manager.printTasks());
-        //System.out.println(manager.printEpics());
-        //System.out.println(manager.printSubTasks());
+        //System.out.println(manager.getTasks());
+        //System.out.println(manager.getEpics());
+        //System.out.println(manager.getSubTasks());
 
         manager.updateSubTask(subTask1, 5, Status.DONE);
         manager.updateSubTask(subTask2, 6, Status.IN_PROGRESS);
-        System.out.println(manager.printSubTasks());
-        System.out.println(manager.printEpics());
+        System.out.println(manager.getSubTasks());
+        System.out.println(manager.getEpics());
 
         //Создаём ещё один объект для обновления задачи
         //Task task3 = new Task("Обновлённая задача","Новое описание");
         //System.out.println(manager.updateTask(task3, 2, Status.IN_PROGRESS));
-        //System.out.println(manager.printTasks());
+        //System.out.println(manager.getTasks());
 
         //Удаляем задачу
         //System.out.println(manager.removeTask(1));
         //System.out.println(manager.removeTask(3));
-        //System.out.println(manager.printTasks());
+        //System.out.println(manager.getTasks());
     }
 }
