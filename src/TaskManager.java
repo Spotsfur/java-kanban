@@ -28,27 +28,24 @@ public class TaskManager {
         return null;
     }
 
-    public Task putTask(Task object) {
+    public void putTask(Task object) {
         taskId++;
         object.setId(taskId);
         tasks.put(taskId, object);
-        return tasks.get(taskId);
     }
 
-    public Task updateTask(Task object, int id, Status status) {
-        if (!tasks.containsKey(id)) return null;
-        tasks.get(id).setName(object.getName());
-        tasks.get(id).setDescription(object.getDescription());
-        tasks.get(id).setStatus(status);
-        return tasks.get(id);
+    public void updateTask(Task object, int id, Status status) {
+        if (tasks.containsKey(id)) {
+            tasks.get(id).setName(object.getName());
+            tasks.get(id).setDescription(object.getDescription());
+            tasks.get(id).setStatus(status);
+        }
     }
 
-    public boolean removeTask(int id) {
+    public void removeTask(int id) {
         if (tasks.containsKey(id)) {
             tasks.remove(id);
-            return true;
         }
-        return false;
     }
 
     //Методы для типа Эпик
@@ -69,27 +66,24 @@ public class TaskManager {
         return null;
     }
 
-    public Epic putEpic(Epic object) {
+    public void putEpic(Epic object) {
         taskId++;
         object.setId(taskId);
         epics.put(taskId, object);
-        return epics.get(taskId);
     }
 
-    public Epic updateEpic(Epic object, int id) {
-        if (!epics.containsKey(id)) return null;
-        epics.get(id).setName(object.getName());
-        epics.get(id).setDescription(object.getDescription());
-        return epics.get(id);
+    public void updateEpic(Epic object, int id) {
+        if (epics.containsKey(id)) {
+            epics.get(id).setName(object.getName());
+            epics.get(id).setDescription(object.getDescription());
+        }
     }
 
-    public boolean removeEpic(int id) {
+    public void removeEpic(int id) {
         if (epics.containsKey(id)) {
             //ЗДЕСЬ ДОЛЖЕН БЫТЬ ЦИКЛ ПЕРЕБОРА ПО САБТАСКАМ
             epics.remove(id);
-            return true;
         }
-        return false;
     }
 
     private Status updateEpicStatus(int epicId) {
@@ -158,35 +152,35 @@ public class TaskManager {
         return null;
     }
 
-    public SubTask putSubTask(SubTask object) {
+    public void putSubTask(SubTask object) {
         //Если эпика с id, соответствующему parentId в объекте object не существует, то дальше не работаем
         int parentId = object.getParentId();
-        if (!epics.containsKey(parentId)) return null;
-        taskId++;
-        object.setId(taskId);
+        if (epics.containsKey(parentId)) {
+            taskId++;
+            object.setId(taskId);
 
-        //В список children передаём список нужного epic, добавляем в него taskId и возвращаем список обратно
-        ArrayList<Integer> children = epics.get(parentId).getSubTasksIds();
-        children.add(taskId);
-        epics.get(parentId).setChildrenIds(children);
+            //В список children передаём список нужного epic, добавляем в него taskId и возвращаем список обратно
+            ArrayList<Integer> children = epics.get(parentId).getSubTasksIds();
+            children.add(taskId);
+            epics.get(parentId).setChildrenIds(children);
 
-        subTasks.put(taskId, object);
-        //Обновляем статус эпика
-        updateEpicStatus(parentId);
-        return subTasks.get(taskId);
+            subTasks.put(taskId, object);
+            //Обновляем статус эпика
+            updateEpicStatus(parentId);
+        }
     }
 
-    public SubTask updateSubTask(SubTask object, int id, Status status) {
-        if (!subTasks.containsKey(id)) return null;
-        subTasks.get(id).setName(object.getName());
-        subTasks.get(id).setDescription(object.getDescription());
-        subTasks.get(id).setStatus(status);
-        //Обновляем статус эпика
-        updateEpicStatus(subTasks.get(id).getParentId());
-        return subTasks.get(id);
+    public void updateSubTask(SubTask object, int id, Status status) {
+        if (subTasks.containsKey(id)) {
+            subTasks.get(id).setName(object.getName());
+            subTasks.get(id).setDescription(object.getDescription());
+            subTasks.get(id).setStatus(status);
+            //Обновляем статус эпика
+            updateEpicStatus(subTasks.get(id).getParentId());
+        }
     }
 
-    public boolean removeSubTask(int id) {
+    public void removeSubTask(int id) {
         if (subTasks.containsKey(id)) {
             int parentId = subTasks.get(id).getParentId();
             //Получаем список детей, стираем нужного, возвращаем список
@@ -196,9 +190,7 @@ public class TaskManager {
             //Обновляем статус эпика
             updateEpicStatus(parentId);
             subTasks.remove(id);
-            return true;
         }
-        return false;
     }
 
 
