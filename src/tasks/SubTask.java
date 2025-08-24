@@ -1,4 +1,4 @@
-package Tasks;
+package tasks;
 
 public class SubTask extends Task {
     private int epicId;
@@ -15,10 +15,10 @@ public class SubTask extends Task {
                 ", name='" + super.getName() + "'" +
                 ", description='" + super.getDescription() + "'" +
                 ", status='" + super.getStatus() + "'" +
-                ", parentId='" + epicId + "'}";
+                ", epicId='" + epicId + "'}";
     }
 
-    public int getParentId() {
+    public int getEpicId() {
         return epicId;
     }
 

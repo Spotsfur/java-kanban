@@ -1,7 +1,7 @@
-import Manager.TaskManager;
-import Tasks.Epic;
-import Tasks.SubTask;
-import Tasks.Task;
+import manager.TaskManager;
+import tasks.Epic;
+import tasks.SubTask;
+import tasks.Task;
 
 public class Main {
 
@@ -17,7 +17,7 @@ public class Main {
         SubTask subTask2 = new SubTask("Название другой подзадачи","Какое-то описание", 4);
         SubTask subTask3 = new SubTask("Название очередной подзадачи","Какое-то описание", 4);
 
-        //Передаём в Tasks.Task Задачи, Эпики, Подзадачи
+        //Передаём в Tasks.task Задачи, Эпики, Подзадачи
         manager.putTask(task1);
         manager.putTask(task2);
 
@@ -36,6 +36,9 @@ public class Main {
         manager.updateSubTask(subTask1, 5);
         manager.updateSubTask(subTask2, 6);
         System.out.println(manager.getSubTasks());
+        System.out.println(manager.getEpics());
+
+        manager.clearSubTasks();
         System.out.println(manager.getEpics());
 
         //Создаём ещё один объект для обновления задачи

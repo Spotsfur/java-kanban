@@ -1,4 +1,4 @@
-package Tasks;
+package tasks;
 
 import java.util.ArrayList;
 
@@ -16,14 +16,14 @@ public class Epic extends Task {
                 ", name='" + super.getName() + "'" +
                 ", description='" + super.getDescription() + "'" +
                 ", status='" + super.getStatus() + "'" +
-                ", childIds='" + subTasksIds + "'}";
+                ", subTasksIds='" + subTasksIds + "'}";
     }
 
     public ArrayList<Integer> getSubTasksIds() {
         return subTasksIds;
     }
 
-    public void setChildrenIds(ArrayList<Integer> subTasksIds) {
+    public void setSubtasksIds(ArrayList<Integer> subTasksIds) {
         this.subTasksIds = subTasksIds;
     }
 }

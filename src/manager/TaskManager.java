@@ -1,9 +1,9 @@
-package Manager;
+package manager;
 
-import Tasks.Epic;
-import Tasks.SubTask;
-import Tasks.Task;
-import Tasks.Status;
+import tasks.Epic;
+import tasks.SubTask;
+import tasks.Task;
+import tasks.Status;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,9 +23,8 @@ public class TaskManager {
         return new ArrayList<>(tasks.values());
     }
 
-    public boolean clearTasks() {
+    public void clearTasks() {
         tasks.clear();
-        return true;
     }
 
     public Task getTask(int id) {
@@ -56,10 +55,9 @@ public class TaskManager {
         return new ArrayList<>(epics.values());
     }
 
-    public boolean clearEpic() {
+    public void clearEpic() {
         subTasks.clear();
         epics.clear();
-        return true;
     }
 
     public Epic getEpic(int id) {
@@ -138,14 +136,13 @@ public class TaskManager {
         return new ArrayList<>(subTasks.values());
     }
 
-    public boolean clearSubTasks() {
+    public void clearSubTasks() {
         for (Integer id : epics.keySet()) {
-            ArrayList<Integer> childrenIds = epics.get(id).getSubTasksIds();
-            childrenIds.clear();
-            epics.get(id).setChildrenIds(childrenIds);
+            ArrayList<Integer> subTasksIdsIds = epics.get(id).getSubTasksIds();
+            subTasksIdsIds.clear();
+            epics.get(id).setStatus(Status.NEW);
         }
         subTasks.clear();
-        return true;
     }
 
     public SubTask getSubTask(int id) {
@@ -153,20 +150,20 @@ public class TaskManager {
     }
 
     public void putSubTask(SubTask subTask) {
-        //Если эпика с id, соответствующему parentId в объекте object не существует, то дальше не работаем
-        int parentId = subTask.getParentId();
-        if (epics.containsKey(parentId)) {
+        //Если эпика с id, соответствующему epicId в объекте subTask не существует, то дальше не работаем
+        int epicId = subTask.getEpicId();
+        if (epics.containsKey(epicId)) {
             taskId++;
             subTask.setId(taskId);
 
-            //В список children передаём список нужного epic, добавляем в него taskId и возвращаем список обратно
-            ArrayList<Integer> children = epics.get(parentId).getSubTasksIds();
-            children.add(taskId);
-            epics.get(parentId).setChildrenIds(children);
+            //В список subTasksIds передаём список нужного epic, добавляем в него taskId и возвращаем список обратно
+            ArrayList<Integer> subTasksIds = epics.get(epicId).getSubTasksIds();
+            subTasksIds.add(taskId);
+            epics.get(epicId).setSubtasksIds(subTasksIds);
 
             subTasks.put(taskId, subTask);
             //Обновляем статус эпика
-            updateEpicStatus(parentId);
+            updateEpicStatus(epicId);
         }
     }
 
@@ -175,19 +172,19 @@ public class TaskManager {
             subTasks.get(id).setName(subTask.getName());
             subTasks.get(id).setDescription(subTask.getDescription());
             //Обновляем статус эпика
-            updateEpicStatus(subTasks.get(id).getParentId());
+            updateEpicStatus(subTasks.get(id).getEpicId());
         }
     }
 
     public void removeSubTask(int id) {
         if (subTasks.containsKey(id)) {
-            int parentId = subTasks.get(id).getParentId();
+            int epictId = subTasks.get(id).getEpicId();
             //Получаем список детей, стираем нужного, возвращаем список
-            ArrayList<Integer> childrenIds = epics.get(parentId).getSubTasksIds();
+            ArrayList<Integer> childrenIds = epics.get(epictId).getSubTasksIds();
             childrenIds.remove(id);
-            epics.get(parentId).setChildrenIds(childrenIds);
+            epics.get(epictId).setSubtasksIds(childrenIds);
             //Обновляем статус эпика
-            updateEpicStatus(parentId);
+            updateEpicStatus(epictId);
             subTasks.remove(id);
         }
     }
