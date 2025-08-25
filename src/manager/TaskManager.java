@@ -140,7 +140,7 @@ public class TaskManager {
         for (Integer id : epics.keySet()) {
             ArrayList<Integer> subTasksIdsIds = epics.get(id).getSubTasksIds();
             subTasksIdsIds.clear();
-            epics.get(id).setStatus(Status.NEW);
+            updateEpicStatus(id);
         }
         subTasks.clear();
     }
