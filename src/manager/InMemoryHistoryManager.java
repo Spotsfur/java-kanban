@@ -11,12 +11,14 @@ public class InMemoryHistoryManager implements HistoryManager {
     //Методы для Истории
     @Override
     public List<Task> getHistory() {
-        return history;
+        List<Task> newHistory;
+        newHistory = history;
+        return newHistory;
     }
 
     @Override
     public void addTask(Task task) {
-        if (history.size() >= 10) {
+        if (history.size() >= 10 && task != null) {
             history.removeFirst();
         }
         history.add(task);
