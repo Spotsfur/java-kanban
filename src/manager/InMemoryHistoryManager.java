@@ -37,16 +37,20 @@ public class InMemoryHistoryManager implements HistoryManager {
     private List<Task> getTasks() {
         List<Task> history = new ArrayList<>();
         HistoryNode<Task> reader = head;
-        for (int i = 0; i < nodesList.size(); i++) {
-            history.add(reader.data);
-            reader = reader.next;
+        if (reader != null) {
+            for (int i = 0; i < nodesList.size(); i++) {
+                history.add(reader.data);
+                reader = reader.next;
+            }
         }
         return history;
     }
 
     //Удаляем ноду
     private void removeNode(HistoryNode<Task> node) {
-        if (node.prev != null && node.next == null) { //Если это хвост, то предыдущий новый хвост
+        if (node == null) {
+            return;
+        } else if (node.prev != null && node.next == null) { //Если это хвост, то предыдущий новый хвост
             tail = node.prev;
             node.prev.next = null;
         } else if (node.prev == null && node.next != null) { //Если это голова, то следующий новая голова
